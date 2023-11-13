@@ -1,15 +1,13 @@
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
 from rest_framework import views
 from rest_framework.response import Response
 from rest_framework import status
-from chatterbot import ChatBot
 
+chatterbot = ChatBot('Example ChatterBot')
+trainer = ListTrainer(chatterbot)
 
-chatterbot = ChatBot(
-    'Example ChatterBot',
-    io_adapter="chatterbot.adapters.io.JsonAdapter"
-)
-
-chatterbot.train([
+trainer.train([
     "Hi",
     "Hello",
     "How are you?",
@@ -18,7 +16,6 @@ chatterbot.train([
     "Thank you",
     "You are welcome.",
 ])
-
 
 class ChatterBotView(views.APIView):
     permission_classes = []
@@ -31,8 +28,10 @@ class ChatterBotView(views.APIView):
 
     def post(self, request, *args, **kwargs):
         input_statement = request.data.get('text')
-
-        response_data = chatterbot.get_response(input_statement)
-
+        response_statement = chatterbot.get_response(input_statement)
+        response_data = {
+            'text': response_statement.text,
+            'confidence': response_statement.confidence,
+            # include all attributes that you want to serialize
+        }
         return Response(response_data, status=status.HTTP_200_OK)
-

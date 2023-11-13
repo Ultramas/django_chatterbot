@@ -13,7 +13,7 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from django.contrib import admin
 from rest_framework import routers
 from django_chatterbot.api import ChatterBotView
@@ -22,9 +22,9 @@ from django_chatterbot.views import ChatterBotAppView
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    url(r'^$', ChatterBotAppView.as_view()),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include(router.urls)),
-    url(r'^api/chatterbot/', ChatterBotView.as_view(), name='chatterbot'),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    re_path(r'^$', ChatterBotAppView.as_view()),
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^api/', include(router.urls)),
+    re_path(r'^api/chatterbot/', ChatterBotView.as_view(), name='chatterbot'),
+    re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
