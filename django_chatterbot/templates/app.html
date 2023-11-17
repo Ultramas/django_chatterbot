@@ -12,9 +12,18 @@
     }
     </style>
   </head>
-  <body>
+  <body style="background: linear-gradient(to right, #ff0000, #00ff00);">
+
+<div style="display: none;">
+  <audio id="audio" autoplay>
+    <source src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</div>
 
     <div class="container">
+
+
       <div class="page-header text-center">
         <h1>Intellexual </h1>
       </div>
@@ -25,7 +34,7 @@
           </ul>
 
           <div class="input-group input-group-lg">
-            <input type="text" class="form-control js-text" placeholder="Type something to begin..."/>
+            <input type="text" class="form-control js-text" placeholder="Message ..."/>
             <span class="input-group-btn">
               <button class="btn btn-primary js-say">Submit</button>
             </span>
@@ -78,8 +87,15 @@
             $row.text(statement.text);
             $chatlog.append($row);
 
+            // Create an audio element
+            var audio = new Audio('audio');
+
+            // Play the audio
+            audio.play();
+
             $input.val('');
         });
+
 
         $submit.fail(function() {
           // TODO: Handle errors
